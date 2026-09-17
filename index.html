@@ -145,6 +145,10 @@
           <span class="elite-badge">Champion challenge</span>
           <span class="elite-text">Programozási verseny – Top 1 szint</span>
         </div>
+        <div class="quiz-progress" aria-live="polite">
+          <span id="question-position">1 / 29. kérdés</span>
+          <span id="question-status">0 kész · 29 hátra</span>
+        </div>
 
         <section class="question">
           <h2>1. Melyik attribútum segítségével adható meg egy hivatkozás célja?</h2>
@@ -378,14 +382,20 @@
           <label><input type="radio" name="q29" /> height-span</label>
         </section>
 
-        <button type="button" class="next-btn" id="next-btn">Következő</button>
-        <button type="submit" class="submit-btn hidden" id="submit-btn">Beküldés</button>
+        <div class="quiz-navigation">
+          <button type="button" class="previous-btn" id="previous-btn" disabled>Előző</button>
+          <button type="button" class="next-btn" id="next-btn">Következő</button>
+          <button type="submit" class="submit-btn hidden" id="submit-btn">Beküldés</button>
+        </div>
         <p class="result" id="result" aria-live="polite"></p>
       </form>
     </main>
     <script>
       const quizForm = document.getElementById("quiz-form");
       const result = document.getElementById("result");
+      const questionPosition = document.getElementById("question-position");
+      const questionStatus = document.getElementById("question-status");
+      const previousButton = document.getElementById("previous-btn");
       const nextButton = document.getElementById("next-btn");
       const submitButton = document.getElementById("submit-btn");
       const questionCount = 29;
@@ -574,7 +584,7 @@
           /^\d+\.\s*/,
           ""
         )}`;
-        quizForm.insertBefore(question, quizForm.querySelector(".submit-btn"));
+        quizForm.insertBefore(question, quizForm.querySelector(".quiz-navigation"));
       });
 
       let currentQuestionIndex = 0;
@@ -586,9 +596,20 @@
         });
 
         const isLastQuestion = index === quizQuestions.length - 1;
+        questionPosition.textContent = `${index + 1} / ${quizQuestions.length}. kérdés`;
+        questionStatus.textContent = `${index} kész · ${quizQuestions.length - index} hátra`;
+        previousButton.disabled = index === 0;
         nextButton.classList.toggle("hidden", isLastQuestion);
         submitButton.classList.toggle("hidden", !isLastQuestion);
       }
+
+      previousButton.addEventListener("click", () => {
+        if (currentQuestionIndex > 0) {
+          currentQuestionIndex -= 1;
+          showQuestion(currentQuestionIndex);
+          window.scrollTo({ top: quizForm.offsetTop, behavior: "smooth" });
+        }
+      });
 
       nextButton.addEventListener("click", () => {
         if (currentQuestionIndex < quizQuestions.length - 1) {

@@ -574,8 +574,28 @@ h1 {
   border-color: rgba(239, 68, 68, 0.8);
 }
 
+.quiz-progress {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.quiz-progress span:first-child {
+  color: #f4f8ff;
+}
+
+.quiz-navigation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 .next-btn,
-.submit-btn {
+.submit-btn,
+.previous-btn {
   display: block;
   width: 100%;
   border: none;
@@ -591,14 +611,32 @@ h1 {
 }
 
 .next-btn:hover,
-.submit-btn:hover {
+.submit-btn:hover,
+.previous-btn:not(:disabled):hover {
   transform: translateY(-1px);
   filter: brightness(1.06);
 }
 
 .next-btn:active,
-.submit-btn:active {
+.submit-btn:active,
+.previous-btn:not(:disabled):active {
   transform: translateY(0);
+}
+
+.previous-btn {
+  background: rgba(116, 175, 255, 0.12);
+  color: var(--text);
+  border: 1px solid rgba(116, 175, 255, 0.28);
+  box-shadow: none;
+}
+
+.previous-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.quiz-navigation .submit-btn {
+  grid-column: 1 / -1;
 }
 
 .result {
