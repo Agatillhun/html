@@ -378,19 +378,6 @@
           <label><input type="radio" name="q29" /> height-span</label>
         </section>
 
-        <section class="written-practice">
-          <h2>Írásos gyakorlás</h2>
-          <p>Írd le röviden a válaszokat, hogy jobban rögzüljön a tananyag!</p>
-          <label for="written-html">1. Mire használjuk a HTML-t?</label>
-          <textarea id="written-html" name="written-html" rows="3" required placeholder="Írd le a válaszodat..."></textarea>
-
-          <label for="written-css">2. Mire használjuk a CSS-t?</label>
-          <textarea id="written-css" name="written-css" rows="3" required placeholder="Írd le a válaszodat..."></textarea>
-
-          <label for="written-href">3. Mit ad meg a href attribútum?</label>
-          <textarea id="written-href" name="written-href" rows="3" required placeholder="Írd le a válaszodat..."></textarea>
-        </section>
-
         <button type="submit" class="submit-btn">Beküldés</button>
         <p class="result" id="result" aria-live="polite"></p>
       </form>
@@ -426,6 +413,14 @@
         });
 
         return question;
+      }
+
+      function normalizeAnswer(answer) {
+        return answer
+          .toLowerCase()
+          .replace(/[<>]/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
       }
 
       const extraQuestions = [
@@ -557,17 +552,26 @@
 
       shuffledQuestions.forEach((question, index) => {
         const questionTitle = question.querySelector("h2");
-        const answerLabels = shuffle([...question.querySelectorAll("label")]);
         const questionName = `q${index + 1}`;
+        const labels = [...question.querySelectorAll("label")];
+        const correctLabel = labels.find((label) => label.querySelector("input").value === "correct");
+        const answer = correctLabel.textContent.trim();
+        const answerLabel = document.createElement("label");
+        const answerInput = document.createElement("textarea");
+
+        answerLabel.textContent = "Írd le a válaszodat:";
+        answerInput.className = "written-answer";
+        answerInput.name = questionName;
+        answerInput.dataset.correctAnswer = answer;
+        answerInput.rows = 2;
+        answerInput.required = true;
+        answerInput.placeholder = "Írd le a válaszodat...";
+        question.replaceChildren(questionTitle, answerLabel, answerInput);
 
         questionTitle.textContent = `${index + 1}. ${questionTitle.textContent.replace(
           /^\d+\.\s*/,
           ""
         )}`;
-        question.querySelectorAll("input").forEach((input) => {
-          input.name = questionName;
-        });
-        answerLabels.forEach((label) => question.append(label));
         quizForm.insertBefore(question, quizForm.querySelector(".submit-btn"));
       });
 
@@ -704,8 +708,9 @@
       quizForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const correctAnswers = quizForm.querySelectorAll(
-          'input[type="radio"][value="correct"]:checked'
+        const writtenAnswers = [...quizForm.querySelectorAll(".written-answer")];
+        const correctAnswers = writtenAnswers.filter((answer) =>
+          normalizeAnswer(answer.value) === normalizeAnswer(answer.dataset.correctAnswer)
         ).length;
         const percentage = Math.round((correctAnswers / questionCount) * 100);
         const grade = percentage >= 85 ? 5
@@ -717,36 +722,25 @@
 
         questions.forEach((question) => {
           question.classList.add("checked");
-
-          const labels = question.querySelectorAll("label");
-          const correctLabel = [...labels].find((label) => label.querySelector("input").value === "correct");
-          const selectedLabel = [...labels].find((label) => label.querySelector("input").checked);
-
-          labels.forEach((label) => {
-            const input = label.querySelector("input");
-            label.classList.remove("correct-answer", "wrong-answer");
-
-            if (input.value === "correct") {
-              label.classList.add("correct-answer");
-            } else if (input.checked) {
-              label.classList.add("wrong-answer");
-            }
-          });
+          const answerInput = question.querySelector(".written-answer");
+          const isCorrect = normalizeAnswer(answerInput.value) === normalizeAnswer(answerInput.dataset.correctAnswer);
+          answerInput.classList.toggle("correct-answer", isCorrect);
+          answerInput.classList.toggle("wrong-answer", !isCorrect);
 
           const existingHint = question.querySelector(".answer-hint");
           if (existingHint) {
             existingHint.remove();
           }
 
-          if (selectedLabel && selectedLabel !== correctLabel) {
+          if (!isCorrect) {
             const hint = document.createElement("p");
             hint.className = "answer-hint";
-            hint.textContent = `Helyes válasz: ${correctLabel.textContent.trim()}`;
+            hint.textContent = `Helyes válasz: ${answerInput.dataset.correctAnswer}`;
             question.append(hint);
           }
         });
 
-        result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. Érdemjegy: ${grade}. A zöld válasz a helyes, a piros a hibás válasz, és a megjelenő szöveg mutatja a helyes választ.`;
+        result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. Érdemjegy: ${grade}. A zöld mező helyes, a piros mező hibás.`;
       });
     </script>
   </body>
