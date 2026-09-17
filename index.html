@@ -378,6 +378,19 @@
           <label><input type="radio" name="q29" /> height-span</label>
         </section>
 
+        <section class="written-practice">
+          <h2>Írásos gyakorlás</h2>
+          <p>Írd le röviden a válaszokat, hogy jobban rögzüljön a tananyag!</p>
+          <label for="written-html">1. Mire használjuk a HTML-t?</label>
+          <textarea id="written-html" name="written-html" rows="3" required placeholder="Írd le a válaszodat..."></textarea>
+
+          <label for="written-css">2. Mire használjuk a CSS-t?</label>
+          <textarea id="written-css" name="written-css" rows="3" required placeholder="Írd le a válaszodat..."></textarea>
+
+          <label for="written-href">3. Mit ad meg a href attribútum?</label>
+          <textarea id="written-href" name="written-href" rows="3" required placeholder="Írd le a válaszodat..."></textarea>
+        </section>
+
         <button type="submit" class="submit-btn">Beküldés</button>
         <p class="result" id="result" aria-live="polite"></p>
       </form>
@@ -447,6 +460,82 @@
         ["Melyik attribútum nyitja meg a hivatkozást új böngészőlapon?", [
           { text: "target=\"_blank\"", correct: true }, { text: "new=\"tab\"", correct: false },
           { text: "open=\"new\"", correct: false }, { text: "window=\"blank\"", correct: false }
+        ]],
+        ["Melyik CSS-tulajdonsággal állítható be a szöveg színe?", [
+          { text: "color", correct: true }, { text: "text-color", correct: false },
+          { text: "font-color", correct: false }, { text: "foreground", correct: false }
+        ]],
+        ["Melyik CSS-tulajdonság állítja be egy elem háttérszínét?", [
+          { text: "background-color", correct: true }, { text: "back-color", correct: false },
+          { text: "color-background", correct: false }, { text: "fill-color", correct: false }
+        ]],
+        ["Melyik szelektor jelöl egy class nevű osztályt CSS-ben?", [
+          { text: ".class", correct: true }, { text: "#class", correct: false },
+          { text: "class", correct: false }, { text: "@class", correct: false }
+        ]],
+        ["Melyik szelektor jelöl egy id azonosítójú elemet CSS-ben?", [
+          { text: "#azonosito", correct: true }, { text: ".azonosito", correct: false },
+          { text: "id.azonosito", correct: false }, { text: "@azonosito", correct: false }
+        ]],
+        ["Melyik CSS-tulajdonság változtatja meg a betűméretet?", [
+          { text: "font-size", correct: true }, { text: "text-size", correct: false },
+          { text: "font-height", correct: false }, { text: "size", correct: false }
+        ]],
+        ["Melyik HTML-elem hoz létre nem rendezett listát?", [
+          { text: "<ul>", correct: true }, { text: "<ol>", correct: false },
+          { text: "<list>", correct: false }, { text: "<li>", correct: false }
+        ]],
+        ["Melyik CSS-tulajdonság állítja be a külső margót?", [
+          { text: "margin", correct: true }, { text: "padding", correct: false },
+          { text: "space", correct: false }, { text: "outer-gap", correct: false }
+        ]],
+        ["Melyik CSS-tulajdonság állítja be egy elem belső térközét?", [
+          { text: "padding", correct: true }, { text: "margin", correct: false },
+          { text: "inside-space", correct: false }, { text: "border-gap", correct: false }
+        ]],
+        ["Melyik értékkel lesz egy elem rácsos elrendezésű?", [
+          { text: "display: grid", correct: true }, { text: "layout: grid", correct: false },
+          { text: "position: grid", correct: false }, { text: "grid: true", correct: false }
+        ]],
+        ["Melyik HTML-elem jelöli az oldal fejlécét vagy egy tartalmi rész fejlécét?", [
+          { text: "<header>", correct: true }, { text: "<top>", correct: false },
+          { text: "<heading-area>", correct: false }, { text: "<head-content>", correct: false }
+        ]],
+        ["Melyik HTML-elem jelöli az oldal vagy egy tartalmi rész láblécét?", [
+          { text: "<footer>", correct: true }, { text: "<bottom>", correct: false },
+          { text: "<foot-content>", correct: false }, { text: "<end>", correct: false }
+        ]],
+        ["Melyik HTML-elem segítségével készíthető űrlap?", [
+          { text: "<form>", correct: true }, { text: "<input-form>", correct: false },
+          { text: "<questionnaire>", correct: false }, { text: "<fields>", correct: false }
+        ]],
+        ["Melyik HTML-elem hoz létre kattintható gombot?", [
+          { text: "<button>", correct: true }, { text: "<click>", correct: false },
+          { text: "<press>", correct: false }, { text: "<action>", correct: false }
+        ]],
+        ["Melyik attribútummal kapcsolható egy label egy input mezőhöz?", [
+          { text: "for", correct: true }, { text: "connect", correct: false },
+          { text: "label-id", correct: false }, { text: "input-for", correct: false }
+        ]],
+        ["Melyik input type ellenőrzi alapból az e-mail-cím formátumát?", [
+          { text: "email", correct: true }, { text: "mailbox", correct: false },
+          { text: "address", correct: false }, { text: "text-email", correct: false }
+        ]],
+        ["Melyik HTML-elem tartalmazza egy táblázat adatsorait?", [
+          { text: "<tr>", correct: true }, { text: "<row-data>", correct: false },
+          { text: "<table-row>", correct: false }, { text: "<line>", correct: false }
+        ]],
+        ["Melyik HTML-elem használható videó beillesztésére?", [
+          { text: "<video>", correct: true }, { text: "<movie>", correct: false },
+          { text: "<media-video>", correct: false }, { text: "<film>", correct: false }
+        ]],
+        ["Melyik HTML-elem jelöl erős kiemelést a szövegben?", [
+          { text: "<strong>", correct: true }, { text: "<bold>", correct: false },
+          { text: "<important>", correct: false }, { text: "<emphasis-bold>", correct: false }
+        ]],
+        ["Melyik elem tartalmazza a böngészőnek szóló metaadatokat?", [
+          { text: "<head>", correct: true }, { text: "<info>", correct: false },
+          { text: "<metadata>", correct: false }, { text: "<details>", correct: false }
         ]]
       ].map(([questionText, answers]) => createQuestion(questionText, answers));
 
@@ -619,6 +708,11 @@
           'input[type="radio"][value="correct"]:checked'
         ).length;
         const percentage = Math.round((correctAnswers / questionCount) * 100);
+        const grade = percentage >= 85 ? 5
+          : percentage >= 70 ? 4
+            : percentage >= 55 ? 3
+              : percentage >= 40 ? 2
+                : 1;
         const questions = quizForm.querySelectorAll(".question");
 
         questions.forEach((question) => {
@@ -652,7 +746,7 @@
           }
         });
 
-        result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. A zöld válasz a helyes, a piros a hibás válasz, és a megjelenő szöveg mutatja a helyes választ.`;
+        result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. Érdemjegy: ${grade}. A zöld válasz a helyes, a piros a hibás válasz, és a megjelenő szöveg mutatja a helyes választ.`;
       });
     </script>
   </body>

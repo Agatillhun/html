@@ -545,6 +545,50 @@ h1 {
   transform: scale(1.08);
 }
 
+.written-practice {
+  border: 1px solid rgba(255, 215, 0, 0.28);
+  border-radius: 18px;
+  padding: 20px 18px 14px;
+  margin-bottom: 22px;
+  background: linear-gradient(180deg, rgba(38, 31, 18, 0.72), rgba(24, 22, 17, 0.8));
+}
+
+.written-practice h2 {
+  margin: 0 0 8px;
+  font-size: 1.12rem;
+  color: #ffe686;
+}
+
+.written-practice p {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+
+.written-practice label {
+  display: block;
+  margin: 14px 0 8px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.written-practice textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 215, 0, 0.28);
+  border-radius: 12px;
+  background: rgba(5, 10, 18, 0.9);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.5;
+}
+
+.written-practice textarea:focus {
+  outline: 2px solid rgba(255, 215, 0, 0.45);
+  border-color: rgba(255, 215, 0, 0.7);
+}
+
 .submit-btn {
   display: block;
   width: 100%;
