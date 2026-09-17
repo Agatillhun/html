@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML és CSS Quiz</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230b1628'/%3E%3Cpath d='M20 18h24v8h-5v6.5c0 6.4-4.4 11.6-10 11.6s-10-5.2-10-11.6V26h-5v-8zm10 8.5c-3.2 0-5 2.5-5 5.5V34h10v-2c0-3-1.8-5.5-5-5.5zM22 16h20v4H22zm8 26h4v8h-4zm-6 0h4v8h-4zm12 0h4v8h-4z' fill='%235aa9ff'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="auth-shell" id="auth-shell" aria-label="Bejelentkezés és regisztráció">
+        <div class="auth-header">
+          <span class="badge">E-learning</span>
+          <h2>Tanulói hozzáférés</h2>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Bejelentkezés és regisztráció">
+          <button type="button" class="auth-tab active" data-target="login-panel" role="tab" aria-selected="true">
+            Bejelentkezés
+          </button>
+          <button type="button" class="auth-tab" data-target="register-panel" role="tab" aria-selected="false">
+            Regisztráció
+          </button>
+        </div>
+
+        <div class="auth-panels">
+          <div class="auth-panel active" id="login-panel" role="tabpanel">
+            <form class="auth-form" id="login-form" aria-label="Bejelentkezési űrlap">
+              <label>
+                E-mail
+                <input type="email" name="email" placeholder="pelda@iskola.hu" required />
+              </label>
+              <label>
+                Jelszó
+                <input type="password" name="password" placeholder="••••••••" required />
+              </label>
+              <label class="remember-row">
+                <input type="checkbox" name="remember" />
+                <span>Remember me</span>
+              </label>
+              <button type="submit" class="auth-submit">Belépés</button>
+            </form>
+          </div>
+
+          <div class="auth-panel" id="register-panel" role="tabpanel" hidden>
+            <form class="auth-form" id="register-form" aria-label="Regisztrációs űrlap">
+              <label>
+                Teljes név
+                <input type="text" name="name" placeholder="Példa Béla" required />
+              </label>
+              <label>
+                E-mail
+                <input type="email" name="email" placeholder="pelda@iskola.hu" required />
+              </label>
+              <label>
+                Jelszó
+                <input type="password" name="password" placeholder="Legalább 8 karakter" required />
+              </label>
+              <label class="remember-row">
+                <input type="checkbox" name="remember" />
+                <span>Remember me</span>
+              </label>
+              <button type="submit" class="auth-submit">Regisztráció</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <div class="user-bar hidden" id="user-bar">
+        <div class="user-meta">
+          <span class="user-icon" aria-hidden="true">🏆</span>
+          <span id="user-label">Bejelentkezve</span>
+        </div>
+        <button type="button" class="logout-btn" id="logout-btn">Kijelentkezés</button>
+      </div>
+
+      <div class="app-header hidden" id="app-header">
+        <div class="brand-block">
+          <span class="brand-mark" aria-hidden="true">C</span>
+          <div>
+            <small>Champion Lab</small>
+            <strong>Code Arena</strong>
+          </div>
+        </div>
+        <div class="live-tag">
+          <span class="live-dot"></span>
+          Top 1 rank
+        </div>
+      </div>
+
+      <header class="header hero-panel">
+        <div class="hero-copy">
+          <div class="hero-topline">
+            <span class="hero-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2.5A9.5 9.5 0 0 0 2.5 12a9.5 9.5 0 1 0 19 0A9.5 9.5 0 0 0 12 2.5Zm0 3.1a1.6 1.6 0 1 1 0 3.2a1.6 1.6 0 0 1 0-3.2Zm-2.6 11.9h5.2v-1.7H12v-3.5h-1.1v5.2H9.4v-5.2H8.3v5.2H9.4v1.7Zm-2.9-5.2h1.1v-1.7H8.3v1.7Zm7.9 0h1.1v-1.7h-1.1v1.7Zm-3.1-8.5h1.1v1.7H10.1V4.8Zm1.9 0h1.1v1.7h-1.1V4.8Z"/>
+              </svg>
+            </span>
+            <p class="badge">10. osztály</p>
+          </div>
+          <h1>HTML és CSS tudáspróba</h1>
+          <p class="subtitle">Oldd meg a kérdéseket, és teszteld a webfejlesztési tudásod!</p>
+
+          <div class="feature-row">
+            <div class="feature-pill">
+              <span class="mini-icon">✓</span>
+              <span>Modern tanulás</span>
+            </div>
+            <div class="feature-pill">
+              <span class="mini-icon">⚡</span>
+              <span>Gyors visszajelzés</span>
+            </div>
+            <div class="feature-pill">
+              <span class="mini-icon">🎯</span>
+              <span>Teljesítmény</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Webfejlesztési illusztráció">
+          <img
+            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+            alt="Webfejlesztési tanulás"
+          />
+          <div class="floating-card card-one">
+            <span class="card-icon">✦</span>
+            <div>
+              <strong>+92%</strong>
+              <small>képességfejlesztés</small>
+            </div>
+          </div>
+          <div class="floating-card card-two">
+            <span class="card-icon">⌁</span>
+            <div>
+              <strong>29 feladat</strong>
+              <small>interaktív teszt</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <form class="quiz-form hidden" id="quiz-form">
+        <div class="quiz-elite-header">
+          <span class="elite-badge">Champion challenge</span>
+          <span class="elite-text">Programozási verseny – Top 1 szint</span>
+        </div>
+
+        <section class="question">
+          <h2>1. Melyik attribútum segítségével adható meg egy hivatkozás célja?</h2>
+          <label><input type="radio" name="q1" value="correct" required /> href</label>
+          <label><input type="radio" name="q1" /> rel</label>
+          <label><input type="radio" name="q1" /> src</label>
+          <label><input type="radio" name="q1" /> target</label>
+        </section>
+
+        <section class="question">
+          <h2>2. Melyik HTML-rész jelöli az oldal látható tartalmát?</h2>
+          <label><input type="radio" name="q2" value="correct" required /> &lt;body&gt;</label>
+          <label><input type="radio" name="q2" /> &lt;head&gt;</label>
+          <label><input type="radio" name="q2" /> &lt;title&gt;</label>
+          <label><input type="radio" name="q2" /> &lt;meta&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>3. Melyik elem használható egy önálló, saját témájú szakasz megjelölésére?</h2>
+          <label><input type="radio" name="q3" value="correct" required /> &lt;section&gt;</label>
+          <label><input type="radio" name="q3" /> &lt;span&gt;</label>
+          <label><input type="radio" name="q3" /> &lt;footer&gt;</label>
+          <label><input type="radio" name="q3" /> &lt;small&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>4. Melyik attribútum jelenít meg helyettesítő szöveget hibás képbetöltéskor?</h2>
+          <label><input type="radio" name="q4" value="correct" required /> alt</label>
+          <label><input type="radio" name="q4" /> title</label>
+          <label><input type="radio" name="q4" /> width</label>
+          <label><input type="radio" name="q4" /> href</label>
+        </section>
+
+        <section class="question">
+          <h2>5. Melyik elem hoz létre egy új sort a szöveges tartalomban?</h2>
+          <label><input type="radio" name="q5" value="correct" required /> &lt;br&gt;</label>
+          <label><input type="radio" name="q5" /> &lt;strong&gt;</label>
+          <label><input type="radio" name="q5" /> &lt;hr&gt;</label>
+          <label><input type="radio" name="q5" /> &lt;pre&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>6. Melyik logikai attribútum kezdi a rendezett listát visszafelé számozni?</h2>
+          <label><input type="radio" name="q6" value="correct" required /> reversed</label>
+          <label><input type="radio" name="q6" /> reverse</label>
+          <label><input type="radio" name="q6" /> ordered</label>
+          <label><input type="radio" name="q6" /> start</label>
+        </section>
+
+        <section class="question">
+          <h2>7. Melyik elem jelöl egy fejléc-cellát táblázatban?</h2>
+          <label><input type="radio" name="q7" value="correct" required /> &lt;th&gt;</label>
+          <label><input type="radio" name="q7" /> &lt;thead&gt;</label>
+          <label><input type="radio" name="q7" /> &lt;td&gt;</label>
+          <label><input type="radio" name="q7" /> &lt;tr&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>8. Miért hasznos a következetes behúzás HTML-kódban?</h2>
+          <label><input type="radio" name="q8" value="correct" required /> Áttekinthetőbbé teszi az egymásba ágyazott elemeket</label>
+          <label><input type="radio" name="q8" /> Gyorsabbá teszi az internetkapcsolatot</label>
+          <label><input type="radio" name="q8" /> Automatikusan kijavítja a hibás tageket</label>
+          <label><input type="radio" name="q8" /> Megváltoztatja az oldal címét</label>
+        </section>
+
+        <section class="question">
+          <h2>9. Melyik sorból ismerhető fel egy HTML5-dokumentum típusa?</h2>
+          <label><input type="radio" name="q9" value="correct" required /> &lt;!DOCTYPE html&gt;</label>
+          <label><input type="radio" name="q9" /> &lt;meta charset="UTF-8"&gt;</label>
+          <label><input type="radio" name="q9" /> &lt;html lang="hu"&gt;</label>
+          <label><input type="radio" name="q9" /> &lt;title&gt;HTML5&lt;/title&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>10. Melyik elem fejez ki hangsúlyt, nem csupán dőlt betűs megjelenést?</h2>
+          <label><input type="radio" name="q10" value="correct" required /> &lt;em&gt;</label>
+          <label><input type="radio" name="q10" /> &lt;i&gt;</label>
+          <label><input type="radio" name="q10" /> &lt;mark&gt;</label>
+          <label><input type="radio" name="q10" /> &lt;u&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>11. Melyik attribútummal lehet egy táblázatcellát több oszlop szélességére kiterjeszteni?</h2>
+          <label><input type="radio" name="q11" value="correct" required /> colspan</label>
+          <label><input type="radio" name="q11" /> rowspan</label>
+          <label><input type="radio" name="q11" /> span</label>
+          <label><input type="radio" name="q11" /> columns</label>
+        </section>
+
+        <section class="question">
+          <h2>12. Melyik elem tartalmazhat a fő tartalomhoz kapcsolódó kiegészítő információt?</h2>
+          <label><input type="radio" name="q12" value="correct" required /> &lt;aside&gt;</label>
+          <label><input type="radio" name="q12" /> &lt;article&gt;</label>
+          <label><input type="radio" name="q12" /> &lt;nav&gt;</label>
+          <label><input type="radio" name="q12" /> &lt;main&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>13. Melyik elem szövege látható általában a böngésző fülén?</h2>
+          <label><input type="radio" name="q13" value="correct" required /> &lt;title&gt;</label>
+          <label><input type="radio" name="q13" /> &lt;h1&gt;</label>
+          <label><input type="radio" name="q13" /> &lt;header&gt;</label>
+          <label><input type="radio" name="q13" /> &lt;caption&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>14. Milyen rel-érték kapcsolja a HTML-oldalhoz a stíluslapot?</h2>
+          <label><input type="radio" name="q14" value="correct" required /> stylesheet</label>
+          <label><input type="radio" name="q14" /> design</label>
+          <label><input type="radio" name="q14" /> css-file</label>
+          <label><input type="radio" name="q14" /> style</label>
+        </section>
+
+        <section class="question">
+          <h2>15. Melyik HTML-elem illeszt képet az oldal tartalmába?</h2>
+          <label><input type="radio" name="q15" value="correct" required /> &lt;img&gt;</label>
+          <label><input type="radio" name="q15" /> &lt;picture-src&gt;</label>
+          <label><input type="radio" name="q15" /> &lt;image&gt;</label>
+          <label><input type="radio" name="q15" /> &lt;photo&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>16. Melyik elem jelöl egyetlen elemet egy felsorolásban?</h2>
+          <label><input type="radio" name="q16" value="correct" required /> &lt;li&gt;</label>
+          <label><input type="radio" name="q16" /> &lt;item&gt;</label>
+          <label><input type="radio" name="q16" /> &lt;ul-item&gt;</label>
+          <label><input type="radio" name="q16" /> &lt;list&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>17. Melyik az általánosan használható, soron belüli konténer?</h2>
+          <label><input type="radio" name="q17" value="correct" required /> &lt;span&gt;</label>
+          <label><input type="radio" name="q17" /> &lt;inline&gt;</label>
+          <label><input type="radio" name="q17" /> &lt;label-box&gt;</label>
+          <label><input type="radio" name="q17" /> &lt;small-container&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>18. Hogyan viselkedik alapértelmezés szerint egy div elem?</h2>
+          <label><input type="radio" name="q18" value="correct" required /> Új sorban kezdődik</label>
+          <label><input type="radio" name="q18" /> Mindig félkövér szöveget ír</label>
+          <label><input type="radio" name="q18" /> Képet tölt be</label>
+          <label><input type="radio" name="q18" /> Automatikusan középre igazít</label>
+        </section>
+
+        <section class="question">
+          <h2>19. Melyik elembe írunk egy önálló szöveges bekezdést?</h2>
+          <label><input type="radio" name="q19" value="correct" required /> &lt;p&gt;</label>
+          <label><input type="radio" name="q19" /> &lt;text&gt;</label>
+          <label><input type="radio" name="q19" /> &lt;paragraph&gt;</label>
+          <label><input type="radio" name="q19" /> &lt;line&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>20. Melyik elem segítségével készíthetünk kattintható linket?</h2>
+          <label><input type="radio" name="q20" value="correct" required /> &lt;a&gt;</label>
+          <label><input type="radio" name="q20" /> &lt;link-button&gt;</label>
+          <label><input type="radio" name="q20" /> &lt;go&gt;</label>
+          <label><input type="radio" name="q20" /> &lt;url&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>21. Melyik globális attribútummal adható egyedi azonosító egy elemnek?</h2>
+          <label><input type="radio" name="q21" value="correct" required /> id</label>
+          <label><input type="radio" name="q21" /> name-id</label>
+          <label><input type="radio" name="q21" /> key</label>
+          <label><input type="radio" name="q21" /> unique</label>
+        </section>
+
+        <section class="question">
+          <h2>22. Elhagyható-e a ./ egy aktuális mappából induló relatív útvonal elejéről?</h2>
+          <label><input type="radio" name="q22" value="correct" required /> Igen, elhagyható</label>
+          <label><input type="radio" name="q22" /> Nem, kötelező kiírni</label>
+          <label><input type="radio" name="q22" /> Csak képek esetén hagyható el</label>
+          <label><input type="radio" name="q22" /> Csak CSS-ben használható</label>
+        </section>
+
+        <section class="question">
+          <h2>23. Miért nem megbízható webes hivatkozásként egy C:\ kezdetű teljes fájlút?</h2>
+          <label><input type="radio" name="q23" value="correct" required /> Másik gépen vagy webszerveren nem biztos, hogy létezik</label>
+          <label><input type="radio" name="q23" /> Mert a C betű tiltott HTML-karakter</label>
+          <label><input type="radio" name="q23" /> Mert csak képekre használható</label>
+          <label><input type="radio" name="q23" /> Mert mindig túl rövid útvonal</label>
+        </section>
+
+        <section class="question">
+          <h2>24. Melyik elem használható idegen kifejezés vagy tudományos név jelölésére?</h2>
+          <label><input type="radio" name="q24" value="correct" required /> &lt;i&gt;</label>
+          <label><input type="radio" name="q24" /> &lt;foreign&gt;</label>
+          <label><input type="radio" name="q24" /> &lt;science&gt;</label>
+          <label><input type="radio" name="q24" /> &lt;italic-name&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>25. Melyik négy fő rész helyes sorrendje egy HTML-dokumentumban?</h2>
+          <label><input type="radio" name="q25" value="correct" required /> &lt;!DOCTYPE html&gt;, &lt;html&gt;, &lt;head&gt;, &lt;body&gt;</label>
+          <label><input type="radio" name="q25" /> &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;!DOCTYPE html&gt;</label>
+          <label><input type="radio" name="q25" /> &lt;head&gt;, &lt;title&gt;, &lt;html&gt;, &lt;body&gt;</label>
+          <label><input type="radio" name="q25" /> &lt;body&gt;, &lt;head&gt;, &lt;html&gt;, &lt;meta&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>26. Melyik elem jelöli a dokumentum fejlécéhez tartozó részt?</h2>
+          <label><input type="radio" name="q26" value="correct" required /> &lt;head&gt;</label>
+          <label><input type="radio" name="q26" /> &lt;top&gt;</label>
+          <label><input type="radio" name="q26" /> &lt;header-content&gt;</label>
+          <label><input type="radio" name="q26" /> &lt;meta-data&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>27. Melyik elem jelöli az oldal fő, központi tartalmát?</h2>
+          <label><input type="radio" name="q27" value="correct" required /> &lt;main&gt;</label>
+          <label><input type="radio" name="q27" /> &lt;center&gt;</label>
+          <label><input type="radio" name="q27" /> &lt;content&gt;</label>
+          <label><input type="radio" name="q27" /> &lt;primary&gt;</label>
+        </section>
+
+        <section class="question">
+          <h2>28. Melyik attribútum azonosítja egy oldalon belüli hivatkozás célpontját?</h2>
+          <label><input type="radio" name="q28" value="correct" required /> id</label>
+          <label><input type="radio" name="q28" /> #</label>
+          <label><input type="radio" name="q28" /> anchor</label>
+          <label><input type="radio" name="q28" /> target-id</label>
+        </section>
+
+        <section class="question">
+          <h2>29. Melyik attribútummal lehet egy cellát több sor magasságára kiterjeszteni?</h2>
+          <label><input type="radio" name="q29" value="correct" required /> rowspan</label>
+          <label><input type="radio" name="q29" /> colspan</label>
+          <label><input type="radio" name="q29" /> rows</label>
+          <label><input type="radio" name="q29" /> height-span</label>
+        </section>
+
+        <button type="submit" class="submit-btn">Beküldés</button>
+        <p class="result" id="result" aria-live="polite"></p>
+      </form>
+    </main>
+    <script>
+      const quizForm = document.getElementById("quiz-form");
+      const result = document.getElementById("result");
+      const questionCount = 29;
+
+      function shuffle(items) {
+        for (let index = items.length - 1; index > 0; index -= 1) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+          [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
+        }
+        return items;
+      }
+
+      function createQuestion(questionText, answers) {
+        const question = document.createElement("section");
+        question.className = "question";
+        const title = document.createElement("h2");
+        title.textContent = questionText;
+        question.append(title);
+
+        answers.forEach((answer) => {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.value = answer.correct ? "correct" : "wrong";
+          input.required = answer.correct;
+          label.append(input, ` ${answer.text}`);
+          question.append(label);
+        });
+
+        return question;
+      }
+
+      const extraQuestions = [
+        ["Melyik elem jelöli egy oldal navigációs hivatkozásait?", [
+          { text: "<nav>", correct: true }, { text: "<menu-bar>", correct: false },
+          { text: "<navigation>", correct: false }, { text: "<links>", correct: false }
+        ]],
+        ["Melyik elem tartalmazhat egy önálló, újrafelhasználható tartalmi egységet?", [
+          { text: "<article>", correct: true }, { text: "<unit>", correct: false },
+          { text: "<content-box>", correct: false }, { text: "<story>", correct: false }
+        ]],
+        ["Melyik elem jelöli egy táblázat egy sorát?", [
+          { text: "<tr>", correct: true }, { text: "<row>", correct: false },
+          { text: "<table-row>", correct: false }, { text: "<line>", correct: false }
+        ]],
+        ["Melyik attribútum adja meg egy kép fájlforrását?", [
+          { text: "src", correct: true }, { text: "source", correct: false },
+          { text: "file", correct: false }, { text: "image-url", correct: false }
+        ]],
+        ["Melyik elem jelöl számozás nélküli listát?", [
+          { text: "<ul>", correct: true }, { text: "<list>", correct: false },
+          { text: "<items>", correct: false }, { text: "<bullet-list>", correct: false }
+        ]],
+        ["Melyik elem jelöl számozott listát?", [
+          { text: "<ol>", correct: true }, { text: "<numbered>", correct: false },
+          { text: "<nl>", correct: false }, { text: "<ordered-list>", correct: false }
+        ]],
+        ["Melyik elem adja meg a HTML-oldal nyelvét?", [
+          { text: "lang", correct: true }, { text: "language", correct: false },
+          { text: "locale", correct: false }, { text: "html-lang", correct: false }
+        ]],
+        ["Melyik attribútum nyitja meg a hivatkozást új böngészőlapon?", [
+          { text: "target=\"_blank\"", correct: true }, { text: "new=\"tab\"", correct: false },
+          { text: "open=\"new\"", correct: false }, { text: "window=\"blank\"", correct: false }
+        ]]
+      ].map(([questionText, answers]) => createQuestion(questionText, answers));
+
+      const questionBank = [...quizForm.querySelectorAll(".question"), ...extraQuestions];
+      quizForm.querySelectorAll(".question").forEach((question) => question.remove());
+      const previousQuestionSet = localStorage.getItem("quiz-question-set");
+      let shuffledQuestions;
+      let questionSetId;
+
+      do {
+        shuffledQuestions = shuffle([...questionBank]).slice(0, questionCount);
+        questionSetId = shuffledQuestions
+          .map((question) => question.querySelector("h2").textContent)
+          .sort()
+          .join("|");
+      } while (questionSetId === previousQuestionSet);
+
+      localStorage.setItem("quiz-question-set", questionSetId);
+
+      shuffledQuestions.forEach((question, index) => {
+        const questionTitle = question.querySelector("h2");
+        const answerLabels = shuffle([...question.querySelectorAll("label")]);
+        const questionName = `q${index + 1}`;
+
+        questionTitle.textContent = `${index + 1}. ${questionTitle.textContent.replace(
+          /^\d+\.\s*/,
+          ""
+        )}`;
+        question.querySelectorAll("input").forEach((input) => {
+          input.name = questionName;
+        });
+        answerLabels.forEach((label) => question.append(label));
+        quizForm.insertBefore(question, quizForm.querySelector(".submit-btn"));
+      });
+
+      const authShell = document.getElementById("auth-shell");
+      const userBar = document.getElementById("user-bar");
+      const appHeader = document.getElementById("app-header");
+      const userLabel = document.getElementById("user-label");
+      const logoutBtn = document.getElementById("logout-btn");
+      const authTabs = document.querySelectorAll(".auth-tab");
+      const authPanels = document.querySelectorAll(".auth-panel");
+      const AUTH_KEY = "quiz-auth-session";
+      const USERS_KEY = "quiz-registered-users";
+
+      function getUsers() {
+        const users = localStorage.getItem(USERS_KEY);
+        return users ? JSON.parse(users) : [];
+      }
+
+      function saveUsers(users) {
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      }
+
+      function setAuthenticated(email, rememberMe) {
+        const payload = { email };
+
+        if (rememberMe) {
+          localStorage.setItem(AUTH_KEY, JSON.stringify(payload));
+          sessionStorage.removeItem(AUTH_KEY);
+        } else {
+          sessionStorage.setItem(AUTH_KEY, JSON.stringify(payload));
+          localStorage.removeItem(AUTH_KEY);
+        }
+
+        authShell.classList.add("hidden");
+        userBar.classList.remove("hidden");
+        appHeader.classList.remove("hidden");
+        userLabel.textContent = `Bejelentkezve: ${email}`;
+        quizForm.classList.remove("hidden");
+      }
+
+      function logout() {
+        localStorage.removeItem(AUTH_KEY);
+        sessionStorage.removeItem(AUTH_KEY);
+        userBar.classList.add("hidden");
+        appHeader.classList.add("hidden");
+        authShell.classList.remove("hidden");
+        quizForm.classList.add("hidden");
+        result.textContent = "";
+      }
+
+      function restoreSession() {
+        const remembered = localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY);
+
+        if (remembered) {
+          const user = JSON.parse(remembered);
+          setAuthenticated(user.email, Boolean(localStorage.getItem(AUTH_KEY)));
+        } else {
+          authShell.classList.remove("hidden");
+          quizForm.classList.add("hidden");
+        }
+      }
+
+      authTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const target = tab.dataset.target;
+
+          authTabs.forEach((item) => {
+            item.classList.toggle("active", item === tab);
+            item.setAttribute("aria-selected", String(item === tab));
+          });
+
+          authPanels.forEach((panel) => {
+            const isActive = panel.id === target;
+            panel.classList.toggle("active", isActive);
+            panel.hidden = !isActive;
+          });
+        });
+      });
+
+      document.getElementById("login-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
+        const rememberMe = form.remember.checked;
+
+        if (!email || !password) {
+          alert("Add meg az e-mail címet és a jelszót!");
+          return;
+        }
+
+        const users = getUsers();
+        const registered = users.find((user) => user.email.toLowerCase() === email.toLowerCase() && user.password === password);
+
+        if (!registered) {
+          alert("Hibás e-mail vagy jelszó. Először regisztrálj vagy ellenőrizd a beírt adatokat.");
+          return;
+        }
+
+        setAuthenticated(email, rememberMe);
+        form.reset();
+      });
+
+      document.getElementById("register-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
+        const rememberMe = form.remember.checked;
+
+        if (!name || !email || password.length < 6) {
+          alert("A név és az e-mail kötelező, a jelszónak legalább 6 karakter hosszúnak kell lennie.");
+          return;
+        }
+
+        const users = getUsers();
+        const alreadyExists = users.some((user) => user.email.toLowerCase() === email.toLowerCase());
+
+        if (alreadyExists) {
+          alert("Ez az e-mail cím már regisztrálva van.");
+          return;
+        }
+
+        users.push({ name, email, password });
+        saveUsers(users);
+        setAuthenticated(email, rememberMe);
+        form.reset();
+      });
+
+      logoutBtn.addEventListener("click", logout);
+      restoreSession();
+
+      quizForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const correctAnswers = quizForm.querySelectorAll(
+          'input[type="radio"][value="correct"]:checked'
+        ).length;
+        const percentage = Math.round((correctAnswers / questionCount) * 100);
+        const questions = quizForm.querySelectorAll(".question");
+
+        questions.forEach((question) => {
+          question.classList.add("checked");
+
+          const labels = question.querySelectorAll("label");
+          const correctLabel = [...labels].find((label) => label.querySelector("input").value === "correct");
+          const selectedLabel = [...labels].find((label) => label.querySelector("input").checked);
+
+          labels.forEach((label) => {
+            const input = label.querySelector("input");
+            label.classList.remove("correct-answer", "wrong-answer");
+
+            if (input.value === "correct") {
+              label.classList.add("correct-answer");
+            } else if (input.checked) {
+              label.classList.add("wrong-answer");
+            }
+          });
+
+          const existingHint = question.querySelector(".answer-hint");
+          if (existingHint) {
+            existingHint.remove();
+          }
+
+          if (selectedLabel && selectedLabel !== correctLabel) {
+            const hint = document.createElement("p");
+            hint.className = "answer-hint";
+            hint.textContent = `Helyes válasz: ${correctLabel.textContent.trim()}`;
+            question.append(hint);
+          }
+        });
+
+        result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. A zöld válasz a helyes, a piros a hibás válasz, és a megjelenő szöveg mutatja a helyes választ.`;
+      });
+    </script>
+  </body>
+</html>
