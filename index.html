@@ -378,13 +378,16 @@
           <label><input type="radio" name="q29" /> height-span</label>
         </section>
 
-        <button type="submit" class="submit-btn">Beküldés</button>
+        <button type="button" class="next-btn" id="next-btn">Következő</button>
+        <button type="submit" class="submit-btn hidden" id="submit-btn">Beküldés</button>
         <p class="result" id="result" aria-live="polite"></p>
       </form>
     </main>
     <script>
       const quizForm = document.getElementById("quiz-form");
       const result = document.getElementById("result");
+      const nextButton = document.getElementById("next-btn");
+      const submitButton = document.getElementById("submit-btn");
       const questionCount = 29;
 
       function shuffle(items) {
@@ -573,6 +576,29 @@
         )}`;
         quizForm.insertBefore(question, quizForm.querySelector(".submit-btn"));
       });
+
+      let currentQuestionIndex = 0;
+      const quizQuestions = [...quizForm.querySelectorAll(".question")];
+
+      function showQuestion(index) {
+        quizQuestions.forEach((question, questionIndex) => {
+          question.classList.toggle("hidden", questionIndex !== index);
+        });
+
+        const isLastQuestion = index === quizQuestions.length - 1;
+        nextButton.classList.toggle("hidden", isLastQuestion);
+        submitButton.classList.toggle("hidden", !isLastQuestion);
+      }
+
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < quizQuestions.length - 1) {
+          currentQuestionIndex += 1;
+          showQuestion(currentQuestionIndex);
+          window.scrollTo({ top: quizForm.offsetTop, behavior: "smooth" });
+        }
+      });
+
+      showQuestion(currentQuestionIndex);
 
       const authShell = document.getElementById("auth-shell");
       const userBar = document.getElementById("user-bar");
