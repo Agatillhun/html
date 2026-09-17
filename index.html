@@ -406,9 +406,16 @@
           <button type="submit" class="submit-btn hidden" id="submit-btn">Beküldés</button>
         </div>
         <p class="result" id="result" aria-live="polite"></p>
+        <button type="button" class="review-button hidden" id="review-button">Eredmény megtekintése</button>
       </form>
       <section class="review-panel hidden" id="review-panel" aria-live="polite">
-        <h2>Eredmények áttekintése</h2>
+        <div class="review-header">
+          <div>
+            <span class="badge">Összesítés</span>
+            <h2>Eredmények áttekintése</h2>
+          </div>
+          <button type="button" class="back-to-quiz" id="back-to-quiz">Vissza a kvízhez</button>
+        </div>
         <div id="review-list"></div>
       </section>
     </main>
@@ -422,6 +429,8 @@
       const submitButton = document.getElementById("submit-btn");
       const reviewPanel = document.getElementById("review-panel");
       const reviewList = document.getElementById("review-list");
+      const reviewButton = document.getElementById("review-button");
+      const backToQuizButton = document.getElementById("back-to-quiz");
       const questionCount = 29;
 
       function shuffle(items) {
@@ -643,6 +652,20 @@
         }
       });
 
+      reviewButton.addEventListener("click", () => {
+        quizForm.classList.add("hidden");
+        reviewPanel.classList.remove("hidden");
+        reviewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      backToQuizButton.addEventListener("click", () => {
+        reviewPanel.classList.add("hidden");
+        quizForm.classList.remove("hidden");
+        quizQuestions.forEach((question) => question.classList.add("hidden"));
+        quizQuestions[currentQuestionIndex].classList.remove("hidden");
+        quizForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
       showQuestion(currentQuestionIndex);
 
       const authShell = document.getElementById("auth-shell");
@@ -689,7 +712,9 @@
         appHeader.classList.add("hidden");
         authShell.classList.remove("hidden");
         quizForm.classList.add("hidden");
+        reviewPanel.classList.add("hidden");
         result.textContent = "";
+        reviewButton.classList.add("hidden");
       }
 
       function restoreSession() {
@@ -823,8 +848,7 @@
         });
 
         result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. Érdemjegy: ${grade}. A zöld mező helyes, a piros mező hibás.`;
-        reviewPanel.classList.remove("hidden");
-        reviewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        reviewButton.classList.remove("hidden");
       });
     </script>
   </body>
