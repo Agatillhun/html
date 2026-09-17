@@ -406,6 +406,10 @@
           <button type="submit" class="submit-btn hidden" id="submit-btn">Beküldés</button>
         </div>
         <p class="result" id="result" aria-live="polite"></p>
+        <section class="review-panel hidden" id="review-panel" aria-live="polite">
+          <h2>Eredmények áttekintése</h2>
+          <div id="review-list"></div>
+        </section>
       </form>
     </main>
     <script>
@@ -416,6 +420,8 @@
       const previousButton = document.getElementById("previous-btn");
       const nextButton = document.getElementById("next-btn");
       const submitButton = document.getElementById("submit-btn");
+      const reviewPanel = document.getElementById("review-panel");
+      const reviewList = document.getElementById("review-list");
       const questionCount = 29;
 
       function shuffle(items) {
@@ -783,8 +789,9 @@
               : percentage >= 40 ? 2
                 : 1;
         const questions = quizForm.querySelectorAll(".question");
+        reviewList.replaceChildren();
 
-        questions.forEach((question) => {
+        questions.forEach((question, index) => {
           question.classList.add("checked");
           const answerInput = question.querySelector(".written-answer");
           const isCorrect = normalizeAnswer(answerInput.value) === normalizeAnswer(answerInput.dataset.correctAnswer);
@@ -802,9 +809,22 @@
             hint.textContent = `Helyes válasz: ${answerInput.dataset.correctAnswer}`;
             question.append(hint);
           }
+
+          const reviewItem = document.createElement("article");
+          reviewItem.className = `review-item ${isCorrect ? "review-correct" : "review-wrong"}`;
+          const reviewQuestion = document.createElement("h3");
+          reviewQuestion.textContent = `${index + 1}. ${question.querySelector("h2").textContent.replace(/^\d+\.\s*/, "")}`;
+          const userAnswer = document.createElement("p");
+          userAnswer.textContent = `A te válaszod: ${answerInput.value.trim() || "Nem adott meg választ"}`;
+          const correctAnswer = document.createElement("p");
+          correctAnswer.textContent = `Helyes válasz: ${answerInput.dataset.correctAnswer}`;
+          reviewItem.append(reviewQuestion, userAnswer, correctAnswer);
+          reviewList.append(reviewItem);
         });
 
         result.textContent = `Eredmény: ${correctAnswers}/${questionCount} helyes válasz, ${percentage}%. Érdemjegy: ${grade}. A zöld mező helyes, a piros mező hibás.`;
+        reviewPanel.classList.remove("hidden");
+        reviewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     </script>
   </body>
