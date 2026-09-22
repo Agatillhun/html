@@ -856,13 +856,13 @@ h1 {
 
 /* Standalone HTML and CSS quiz pages */
 .standalone-quiz {
-  --quiz-accent: #56e0c0;
-  --quiz-accent-strong: #2699ff;
-  --quiz-highlight: #d4ff6a;
+  --quiz-accent: #ff9f43;
+  --quiz-accent-strong: #ff5f6d;
+  --quiz-highlight: #ffe66d;
   background:
-    radial-gradient(circle at 86% 7%, rgba(38, 153, 255, 0.3), transparent 26%),
-    radial-gradient(circle at 8% 82%, rgba(86, 224, 192, 0.12), transparent 28%),
-    linear-gradient(135deg, #050b18 0%, #0b1726 52%, #101c32 100%);
+    radial-gradient(circle at 86% 7%, rgba(255, 95, 109, 0.3), transparent 26%),
+    radial-gradient(circle at 8% 82%, rgba(255, 159, 67, 0.16), transparent 28%),
+    linear-gradient(135deg, #170b0d 0%, #24131a 52%, #19152a 100%);
   background-attachment: fixed;
 }
 
