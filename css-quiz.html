@@ -20,7 +20,7 @@
       <header class="standalone-hero">
         <span class="standalone-kicker">02 / CSS alapok</span>
         <h1>CSS kvíz</h1>
-        <p>Írd be a helyes CSS-megoldást, és ellenőrizd a stíluslapokkal kapcsolatos tudásodat.</p>
+        <p>9. osztályos gyakorló kvíz az alapvető CSS-tulajdonságokról és szelektorokról.</p>
       </header>
       <form class="standalone-form" id="css-quiz-form">
         <div class="standalone-progress"><span id="css-progress">1 / 10</span><span id="css-score">0 pont</span></div>
@@ -57,15 +57,14 @@
         ["Melyik tulajdonság változtatja meg egy elem szélességét?", ["size", "width", "element-width", "scale"], 1]
       ];
       const cssExtraAnswers = [
-        "height", "font-family", "display: flex", "border", "border-radius", "rem", "*", "line-height", "overflow: hidden", "background-image",
-        ":hover", "opacity", "justify-content", "align-items", "position: fixed", "text-align", "font-weight", "@media", "grid-template-columns", "grid-template-rows",
-        "gap", "flex-wrap", "order", "display: none", "visibility: hidden", "cursor", "cursor: pointer", "box-shadow", "text-shadow", "letter-spacing",
-        "word-spacing", "text-transform: uppercase", "text-decoration: underline", "list-style-type", "list-style: none", "background-repeat", "background-position: center", "background-size", "background-size: cover", "border-style",
-        "border-width", "border-color", "border-radius: 50%", "margin", "margin-top", "padding-top", "min-width", "max-width", "min-height", "max-height",
-        "vw", "vh", "em", "var(--main-color)", "--main-color: blue", ".menu > li", "h2 + p", "h2 ~ p", ":focus", ":visited",
-        "::before", "::after", "content", "z-index", "static", "relative", "absolute", "sticky", "animation-name", "animation-duration",
-        "@keyframes", "transition-duration", "transition", "outline: none", "visibility", "box-sizing", "box-sizing: border-box", "flex-direction", "flex-direction: column",
-        "grid-auto-flow", "grid-row", "grid-column", "filter", "transform", "scale(1.1)", "rotate(45deg)", "translateX(10px)", "white-space", "text-overflow"
+        "height", "font-family", "display: flex", "border", "border-radius", "rem", "*", "line-height", "background-image", ":hover",
+        "justify-content", "align-items", "text-align", "font-weight", "display: block", "display: inline", "display: inline-block", "grid-template-columns", "grid-template-rows", "gap",
+        "flex-wrap", "display: none", "cursor", "cursor: pointer", "box-shadow", "text-shadow", "letter-spacing", "word-spacing", "text-transform: uppercase", "text-decoration: underline",
+        "list-style-type", "list-style: none", "background-repeat", "background-position: center", "background-size", "border-style", "border-width", "border-color", "border-radius: 50%", "margin",
+        "margin-top", "margin-right", "margin-bottom", "margin-left", "padding", "padding-top", "padding-right", "padding-bottom", "padding-left", "min-width",
+        "max-width", "min-height", "max-height", "px", "%", "vw", "vh", "em", ".menu", "#header", "p", "h1 p",
+        "div > p", "h1 + p", "[type=\"text\"]", ":focus", ":visited", "::before", "::after", "content", "position: relative", "position: absolute",
+        "position: static", "top", "right", "bottom", "left", "transition", "transition-duration", "transform", "scale(1.1)", "box-sizing", "box-sizing: border-box"
       ];
       cssQuestions.push(...cssExtraAnswers.map((answer) => [
         `Melyik CSS-megoldást kell beírni ehhez a témához: ${answer}?`,
