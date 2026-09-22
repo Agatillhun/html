@@ -31,8 +31,18 @@
           <button class="quiz-button" type="button" id="html-next">Következő</button>
           <button class="quiz-button hidden" type="submit" id="html-finish">Eredmény</button>
         </div>
-        <p class="standalone-result" id="html-result" aria-live="polite"></p>
       </form>
+      <button class="quiz-button standalone-review-button hidden" type="button" id="html-review-button">Eredmény megtekintése</button>
+      <section class="standalone-review hidden" id="html-review-panel" aria-live="polite">
+        <div class="review-header">
+          <div>
+            <span class="standalone-kicker">Összesítés</span>
+            <h2>HTML kvíz eredménye</h2>
+          </div>
+          <button class="quiz-button secondary" type="button" id="html-back-button">Vissza a kvízhez</button>
+        </div>
+        <div class="standalone-review-list" id="html-review-list"></div>
+      </section>
     </main>
     <script>
       const htmlQuestions = [
@@ -45,8 +55,93 @@
         ["Melyik elem jelöli a legfontosabb címsort?", ["<heading>", "<h6>", "<title>", "<h1>"], 3],
         ["Melyik attribútum azonosít egy elemet egyedileg?", ["class", "id", "name", "key"], 1],
         ["Melyik elem illeszt képet az oldalra?", ["<picture>", "<image>", "<img>", "<photo>"], 2],
-        ["Melyik elem tartalmazhat egy önálló tartalmi egységet?", ["<article>", "<content>", "<unit>", "<story>"], 0]
+        ["Melyik elem tartalmazhat egy önálló tartalmi egységet?", ["<article>", "<content>", "<unit>", "<story>"], 0],
+        ["Melyik elem jelöli a navigációs hivatkozásokat?", ["<nav>", "<menu-bar>", "<navigation>", "<links>"], 0],
+        ["Melyik elem jelöli egy táblázat sorát?", ["<tr>", "<row>", "<table-row>", "<line>"], 0],
+        ["Melyik attribútum adja meg egy kép fájlforrását?", ["src", "source", "file", "image-url"], 0],
+        ["Melyik elem jelöl számozott listát?", ["<ol>", "<ul>", "<nl>", "<numbered>"], 0],
+        ["Melyik attribútum adja meg a HTML-oldal nyelvét?", ["lang", "language", "locale", "html-lang"], 0],
+        ["Melyik attribútum nyit meg egy linket új lapon?", ["target=\"_blank\"", "new=\"tab\"", "open=\"new\"", "window=\"blank\""], 0],
+        ["Melyik elem jelöli az oldal fejlécét?", ["<header>", "<top>", "<heading-area>", "<head-content>"], 0],
+        ["Melyik elem jelöli az oldal láblécét?", ["<footer>", "<bottom>", "<foot-content>", "<end>"], 0],
+        ["Melyik elem segítségével készíthető űrlap?", ["<form>", "<input-form>", "<questionnaire>", "<fields>"], 0],
+        ["Melyik elem hoz létre kattintható gombot?", ["<button>", "<click>", "<press>", "<action>"], 0],
+        ["Melyik attribútummal kapcsolható egy label egy input mezőhöz?", ["for", "connect", "label-id", "input-for"], 0],
+        ["Melyik input type ellenőrzi az e-mail-cím formátumát?", ["email", "mailbox", "address", "text-email"], 0],
+        ["Melyik elem használható videó beillesztésére?", ["<video>", "<movie>", "<media-video>", "<film>"], 0],
+        ["Melyik elem jelöl erős kiemelést?", ["<strong>", "<bold>", "<important>", "<emphasis-bold>"], 0],
+        ["Melyik elem tartalmazza a böngésző metaadatait?", ["<head>", "<info>", "<metadata>", "<details>"], 0],
+        ["Melyik elem jelöl egyetlen listaelemet?", ["<li>", "<item>", "<list-item>", "<entry>"], 0],
+        ["Melyik elem jelöl egy soron belüli általános konténert?", ["<span>", "<inline>", "<label-box>", "<small-container>"], 0],
+        ["Melyik elem jelöli a dokumentum fő tartalmát?", ["<main>", "<center>", "<content>", "<primary>"], 0],
+        ["Melyik elem készít új sort a szövegben?", ["<br>", "<newline>", "<line>", "<break-line>"], 0],
+        ["Melyik elem jelöl egy tematikus szakaszt?", ["<section>", "<part>", "<area>", "<theme>"], 0],
+        ["Melyik elem jelöl idézetet?", ["<blockquote>", "<quote-box>", "<cite-block>", "<quotation>"], 0],
+        ["Melyik elem jelöl rövid idézetet szöveg közben?", ["<q>", "<shortquote>", "<inline-quote>", "<quote>"], 0],
+        ["Melyik elem jelöl egy kód részletet?", ["<code>", "<program>", "<syntax>", "<coding>"], 0],
+        ["Melyik elem őrzi meg a szóközöket és sortöréseket?", ["<pre>", "<preserve>", "<formatted>", "<space>"], 0],
+        ["Melyik elem jelöli a definíciós listát?", ["<dl>", "<definition-list>", "<terms>", "<def>"], 0],
+        ["Melyik elem tartalmaz egy definíciós lista kifejezését?", ["<dt>", "<term>", "<definition-term>", "<list-title>"], 0],
+        ["Melyik elem tartalmazza a definíciós lista magyarázatát?", ["<dd>", "<description>", "<definition>", "<meaning>"], 0],
+        ["Melyik elem jelöl egy táblázat fejlécét?", ["<thead>", "<table-head>", "<header-row>", "<th-area>"], 0],
+        ["Melyik elem jelöl egy táblázat törzsét?", ["<tbody>", "<table-body>", "<body-rows>", "<rows>"], 0],
+        ["Melyik elem jelöl egy táblázat láblécét?", ["<tfoot>", "<table-footer>", "<footer-row>", "<foot>"], 0],
+        ["Melyik attribútum egyesít cellákat vízszintesen?", ["colspan", "rowspan", "span-columns", "merge-cols"], 0],
+        ["Melyik attribútum egyesít cellákat függőlegesen?", ["rowspan", "colspan", "span-rows", "merge-rows"], 0],
+        ["Melyik elem jelöl képaláírást?", ["<figcaption>", "<caption-image>", "<image-title>", "<figure-text>"], 0],
+        ["Melyik elem csoportosít képet és képaláírást?", ["<figure>", "<image-group>", "<visual>", "<media-box>"], 0],
+        ["Melyik elem jelöl fontos, de nem kiemelt szöveget?", ["<strong>", "<important>", "<bold-text>", "<bolder>"], 0],
+        ["Melyik elem jelöl hangsúlyos szöveget?", ["<em>", "<emphasis-text>", "<stress>", "<italic-important>"], 0],
+        ["Melyik elem emeli ki a szöveget jelölőszínnel?", ["<mark>", "<highlight>", "<yellow>", "<important-mark>"], 0],
+        ["Melyik elem jelöl törölt szöveget?", ["<del>", "<deleted>", "<remove>", "<strike-text>"], 0],
+        ["Melyik elem jelöl beszúrt szöveget?", ["<ins>", "<inserted>", "<added>", "<new-text>"], 0],
+        ["Melyik elem jelöl alsó indexet?", ["<sub>", "<lower>", "<subscript-text>", "<down>"], 0],
+        ["Melyik elem jelöl felső indexet?", ["<sup>", "<upper>", "<superscript-text>", "<up>"], 0],
+        ["Melyik elem jelöl egy felugró részletező blokkot?", ["<details>", "<accordion>", "<expandable>", "<more-info>"], 0],
+        ["Melyik elem ad címet a details elemnek?", ["<summary>", "<details-title>", "<caption>", "<toggle-label>"], 0],
+        ["Melyik elem jelöl egy időpontot vagy dátumot?", ["<time>", "<date>", "<datetime>", "<moment>"], 0],
+        ["Melyik elem jelöl kapcsolatfelvételi adatokat?", ["<address>", "<contact>", "<contact-info>", "<location>"], 0],
+        ["Melyik elem jelöl hangfájlt?", ["<audio>", "<sound>", "<music>", "<voice>"], 0],
+        ["Melyik elem ad alternatív forrást egy media elemhez?", ["<source>", "<media-source>", "<file-source>", "<alternative>"], 0],
+        ["Melyik elem jelöl beágyazott külső oldalt?", ["<iframe>", "<embed-page>", "<frame>", "<external>"], 0],
+        ["Melyik elem jelöl rajzfelületet JavaScripthez?", ["<canvas>", "<drawing>", "<paint-area>", "<graphic>"], 0],
+        ["Melyik elem jelöl SVG grafikát?", ["<svg>", "<vector>", "<graphic-svg>", "<scalable-image>"], 0],
+        ["Melyik input típus készít jelölőnégyzetet?", ["checkbox", "check", "boolean", "tickbox"], 0],
+        ["Melyik input típus készít választógombot?", ["radio", "choice", "option", "select-one"], 0],
+        ["Melyik input típus rejtett mezőt készít?", ["hidden", "invisible", "secret", "none"], 0],
+        ["Melyik input típus készít dátumválasztót?", ["date", "calendar", "day", "date-picker"], 0],
+        ["Melyik input típus készít számbeviteli mezőt?", ["number", "numeric", "digits", "quantity"], 0],
+        ["Melyik attribútum tesz kötelezővé egy mezőt?", ["required", "must-fill", "mandatory", "needed"], 0],
+        ["Melyik attribútum ad súgó szöveget egy mezőben?", ["placeholder", "hint", "help-text", "prompt"], 0],
+        ["Melyik attribútum korlátozza egy input maximális hosszát?", ["maxlength", "max-length", "limit", "text-max"], 0],
+        ["Melyik elem készít legördülő választót?", ["<select>", "<dropdown>", "<option-list>", "<chooser>"], 0],
+        ["Melyik elem jelöl egy select választható elemét?", ["<option>", "<choice>", "<select-item>", "<value>"], 0],
+        ["Melyik elem készít több soros szövegmezőt?", ["<textarea>", "<multiline>", "<text-box>", "<long-input>"], 0],
+        ["Melyik elem csoportosít űrlapmezőket?", ["<fieldset>", "<form-group>", "<field-group>", "<inputs>"], 0],
+        ["Melyik elem ad címet egy fieldset csoportnak?", ["<legend>", "<fieldset-title>", "<group-label>", "<caption>"], 0],
+        ["Melyik attribútum határozza meg az űrlap küldési címét?", ["action", "submit-to", "target-url", "send"], 0],
+        ["Melyik attribútum határozza meg az űrlap küldési módját?", ["method", "send-method", "request", "transport"], 0],
+        ["Melyik érték küldi az űrlapot URL-paraméterként?", ["GET", "URL", "QUERY", "PARAMS"], 0],
+        ["Melyik érték küldi az űrlapot a kérés törzsében?", ["POST", "BODY", "SEND", "REQUEST"], 0],
+        ["Melyik elem jelöli a fő navigációs menüt?", ["<nav>", "<menu>", "<navigation>", "<links>"], 0],
+        ["Melyik elem jelöl egy oldalsávos tartalmat?", ["<aside>", "<sidebar>", "<side-content>", "<secondary>"], 0],
+        ["Melyik elem jelöl egy önálló cikket?", ["<article>", "<post>", "<story>", "<entry>"], 0],
+        ["Melyik elem jelöli az oldal központi tartalmát?", ["<main>", "<primary-content>", "<center-content>", "<core>"], 0],
+        ["Melyik attribútummal adható meg egy elem CSS-osztálya?", ["class", "css-class", "style-class", "group"], 0],
+        ["Melyik attribútum kapcsol egy elemet egyedi névvel?", ["id", "identifier-name", "unique", "element-id"], 0],
+        ["Melyik elem kapcsol külső CSS-fájlt?", ["<link>", "<css>", "<stylesheet>", "<style-link>"], 0],
+        ["Melyik elembe írható közvetlen CSS?", ["<style>", "<css>", "<design>", "<styling>"], 0],
+        ["Melyik elembe írható JavaScript?", ["<script>", "<javascript>", "<code-js>", "<logic>"], 0],
+        ["Melyik meta attribútum adja meg a kódolást?", ["charset", "encoding", "codepage", "text-encoding"], 0],
+        ["Melyik meta beállítás segíti a mobilnézetet?", ["viewport", "mobile", "screen", "responsive"], 0],
+        ["Melyik elem adja meg a böngészőfül címét?", ["<title>", "<tab-title>", "<h1>", "<page-name>"], 0],
+        ["Melyik elem jelöli a dokumentum gyökerét?", ["<html>", "<root>", "<document>", "<page>"], 0],
+        ["Melyik attribútum adja meg egy link célját?", ["href", "src", "target-url", "link-to"], 0]
       ];
+      function shuffleQuestions(questions) {
+        return [...questions].sort(() => Math.random() - 0.5);
+      }
+      const shuffledHtmlQuestions = shuffleQuestions(htmlQuestions).slice(0, 29);
       let htmlIndex = 0;
       let htmlAnswers = [];
       const htmlQuestion = document.getElementById("html-question");
@@ -55,21 +150,28 @@
       const htmlPrev = document.getElementById("html-prev");
       const htmlNext = document.getElementById("html-next");
       const htmlFinish = document.getElementById("html-finish");
-      const htmlResult = document.getElementById("html-result");
+      const htmlReviewButton = document.getElementById("html-review-button");
+      const htmlReviewPanel = document.getElementById("html-review-panel");
+      const htmlReviewList = document.getElementById("html-review-list");
+      const htmlBackButton = document.getElementById("html-back-button");
+
+      function escapeHtml(value) {
+        return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;");
+      }
 
       function renderHtmlQuestion() {
-        const [question, answers] = htmlQuestions[htmlIndex];
-        htmlQuestion.innerHTML = `<h2>${htmlIndex + 1}. ${question}</h2><div class="answer-grid">${answers.map((answer, index) => `<label class="answer-option"><input type="radio" name="html-answer" value="${index}" ${htmlAnswers[htmlIndex] === index ? "checked" : ""} /><span>${answer}</span></label>`).join("")}</div>`;
-        htmlProgress.textContent = `${htmlIndex + 1} / ${htmlQuestions.length}`;
+        const [question, answers] = shuffledHtmlQuestions[htmlIndex];
+        htmlQuestion.innerHTML = `<h2>${htmlIndex + 1}. ${question}</h2><label class="written-answer-label" for="html-answer">Írd be a válaszodat:</label><input class="standalone-answer-input" id="html-answer" type="text" name="html-answer" value="${escapeHtml(htmlAnswers[htmlIndex] || "")}" autocomplete="off" placeholder="Írd be a válaszodat..." />`;
+        htmlProgress.textContent = `${htmlIndex + 1} / ${shuffledHtmlQuestions.length}`;
         htmlScore.textContent = `${htmlAnswers.filter((answer) => answer !== undefined).length} megválaszolva`;
         htmlPrev.disabled = htmlIndex === 0;
-        htmlNext.classList.toggle("hidden", htmlIndex === htmlQuestions.length - 1);
-        htmlFinish.classList.toggle("hidden", htmlIndex !== htmlQuestions.length - 1);
+        htmlNext.classList.toggle("hidden", htmlIndex === shuffledHtmlQuestions.length - 1);
+        htmlFinish.classList.toggle("hidden", htmlIndex !== shuffledHtmlQuestions.length - 1);
       }
 
       function saveHtmlAnswer() {
-        const selected = htmlQuestion.querySelector("input:checked");
-        if (selected) htmlAnswers[htmlIndex] = Number(selected.value);
+        const answer = htmlQuestion.querySelector(".standalone-answer-input");
+        if (answer) htmlAnswers[htmlIndex] = answer.value.trim();
       }
 
       htmlNext.addEventListener("click", () => { saveHtmlAnswer(); htmlIndex += 1; renderHtmlQuestion(); });
@@ -77,13 +179,35 @@
       document.getElementById("html-quiz-form").addEventListener("submit", (event) => {
         event.preventDefault();
         saveHtmlAnswer();
-        const correct = htmlAnswers.filter((answer, index) => answer === htmlQuestions[index][2]).length;
-        htmlResult.textContent = `Eredményed: ${correct}/${htmlQuestions.length} pont (${Math.round(correct / htmlQuestions.length * 100)}%).`;
-        htmlResult.className = "standalone-result visible";
-        htmlFinish.textContent = "Újrakezdés";
-        htmlFinish.type = "button";
-        htmlFinish.onclick = () => { htmlIndex = 0; htmlAnswers = []; htmlResult.className = "standalone-result"; htmlFinish.textContent = "Eredmény"; htmlFinish.type = "submit"; htmlFinish.onclick = null; renderHtmlQuestion(); };
+        htmlReviewButton.classList.remove("hidden");
+        htmlReviewButton.focus();
       });
+
+      htmlReviewButton.addEventListener("click", () => {
+        htmlReviewList.replaceChildren();
+        shuffledHtmlQuestions.forEach(([question, answers, correctIndex], index) => {
+          const userIndex = htmlAnswers[index];
+          const isCorrect = normalizeAnswer(htmlAnswers[index]) === normalizeAnswer(answers[correctIndex]);
+          const item = document.createElement("article");
+          item.className = `review-item ${isCorrect ? "review-correct" : "review-wrong"}`;
+          item.innerHTML = `<h3>${index + 1}. ${question}</h3><p>A te válaszod: ${escapeHtml(htmlAnswers[index] || "Nincs válasz")}</p><p>Helyes válasz: ${escapeHtml(answers[correctIndex])}</p>`;
+          htmlReviewList.append(item);
+        });
+        document.getElementById("html-quiz-form").classList.add("hidden");
+        htmlReviewButton.classList.add("hidden");
+        htmlReviewPanel.classList.remove("hidden");
+        htmlReviewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      htmlBackButton.addEventListener("click", () => {
+        htmlReviewPanel.classList.add("hidden");
+        document.getElementById("html-quiz-form").classList.remove("hidden");
+        htmlReviewButton.classList.remove("hidden");
+        document.getElementById("html-quiz-form").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      function normalizeAnswer(value) {
+        return (value || "").toLowerCase().replace(/[<>]/g, "").replace(/\s+/g, " ").trim();
+      }
       renderHtmlQuestion();
     </script>
   </body>

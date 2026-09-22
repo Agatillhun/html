@@ -29,8 +29,18 @@
           <button class="quiz-button" type="button" id="css-next">Következő</button>
           <button class="quiz-button hidden" type="submit" id="css-finish">Eredmény</button>
         </div>
-        <p class="standalone-result" id="css-result" aria-live="polite"></p>
       </form>
+      <button class="quiz-button standalone-review-button hidden" type="button" id="css-review-button">Eredmény megtekintése</button>
+      <section class="standalone-review hidden" id="css-review-panel" aria-live="polite">
+        <div class="review-header">
+          <div>
+            <span class="standalone-kicker">Összesítés</span>
+            <h2>CSS kvíz eredménye</h2>
+          </div>
+          <button class="quiz-button secondary" type="button" id="css-back-button">Vissza a kvízhez</button>
+        </div>
+        <div class="standalone-review-list" id="css-review-list"></div>
+      </section>
     </main>
     <script>
       const cssQuestions = [
@@ -45,6 +55,26 @@
         ["Melyik érték igazítja középre a flex-elemeket a főtengelyen?", ["align-items: center", "justify-content: center", "text-align: center", "place: center"], 1],
         ["Melyik tulajdonság változtatja meg egy elem szélességét?", ["size", "width", "element-width", "scale"], 1]
       ];
+      const cssExtraAnswers = [
+        "height", "font-family", "display: flex", "border", "border-radius", "rem", "*", "line-height", "overflow: hidden", "background-image",
+        ":hover", "opacity", "justify-content", "align-items", "position: fixed", "text-align", "font-weight", "@media", "grid-template-columns", "grid-template-rows",
+        "gap", "flex-wrap", "order", "display: none", "visibility: hidden", "cursor", "cursor: pointer", "box-shadow", "text-shadow", "letter-spacing",
+        "word-spacing", "text-transform: uppercase", "text-decoration: underline", "list-style-type", "list-style: none", "background-repeat", "background-position: center", "background-size", "background-size: cover", "border-style",
+        "border-width", "border-color", "border-radius: 50%", "margin", "margin-top", "padding-top", "min-width", "max-width", "min-height", "max-height",
+        "vw", "vh", "em", "var(--main-color)", "--main-color: blue", ".menu > li", "h2 + p", "h2 ~ p", ":focus", ":visited",
+        "::before", "::after", "content", "z-index", "static", "relative", "absolute", "sticky", "animation-name", "animation-duration",
+        "@keyframes", "transition-duration", "transition", "outline: none", "visibility", "box-sizing", "box-sizing: border-box", "flex-direction", "flex-direction: column",
+        "grid-auto-flow", "grid-row", "grid-column", "filter", "transform", "scale(1.1)", "rotate(45deg)", "translateX(10px)", "white-space", "text-overflow"
+      ];
+      cssQuestions.push(...cssExtraAnswers.map((answer) => [
+        `Melyik CSS-megoldást kell beírni ehhez a témához: ${answer}?`,
+        [answer],
+        0
+      ]));
+      function shuffleQuestions(questions) {
+        return [...questions].sort(() => Math.random() - 0.5);
+      }
+      const shuffledCssQuestions = shuffleQuestions(cssQuestions).slice(0, 29);
       let cssIndex = 0;
       let cssAnswers = [];
       const cssQuestion = document.getElementById("css-question");
@@ -53,29 +83,59 @@
       const cssPrev = document.getElementById("css-prev");
       const cssNext = document.getElementById("css-next");
       const cssFinish = document.getElementById("css-finish");
-      const cssResult = document.getElementById("css-result");
+      const cssReviewButton = document.getElementById("css-review-button");
+      const cssReviewPanel = document.getElementById("css-review-panel");
+      const cssReviewList = document.getElementById("css-review-list");
+      const cssBackButton = document.getElementById("css-back-button");
 
-      function renderCssQuestion() {
-        const [question, answers] = cssQuestions[cssIndex];
-        cssQuestion.innerHTML = `<h2>${cssIndex + 1}. ${question}</h2><div class="answer-grid">${answers.map((answer, index) => `<label class="answer-option"><input type="radio" name="css-answer" value="${index}" ${cssAnswers[cssIndex] === index ? "checked" : ""} /><span>${answer}</span></label>`).join("")}</div>`;
-        cssProgress.textContent = `${cssIndex + 1} / ${cssQuestions.length}`;
-        cssScore.textContent = `${cssAnswers.filter((answer) => answer !== undefined).length} megválaszolva`;
-        cssPrev.disabled = cssIndex === 0;
-        cssNext.classList.toggle("hidden", cssIndex === cssQuestions.length - 1);
-        cssFinish.classList.toggle("hidden", cssIndex !== cssQuestions.length - 1);
+      function escapeHtml(value) {
+        return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;");
       }
 
-      function saveCssAnswer() { const selected = cssQuestion.querySelector("input:checked"); if (selected) cssAnswers[cssIndex] = Number(selected.value); }
+      function renderCssQuestion() {
+        const [question, answers] = shuffledCssQuestions[cssIndex];
+        cssQuestion.innerHTML = `<h2>${cssIndex + 1}. ${question}</h2><label class="written-answer-label" for="css-answer">Írd be a válaszodat:</label><input class="standalone-answer-input" id="css-answer" type="text" name="css-answer" value="${escapeHtml(cssAnswers[cssIndex] || "")}" autocomplete="off" placeholder="Írd be a válaszodat..." />`;
+        cssProgress.textContent = `${cssIndex + 1} / ${shuffledCssQuestions.length}`;
+        cssScore.textContent = `${cssAnswers.filter((answer) => answer !== undefined).length} megválaszolva`;
+        cssPrev.disabled = cssIndex === 0;
+        cssNext.classList.toggle("hidden", cssIndex === shuffledCssQuestions.length - 1);
+        cssFinish.classList.toggle("hidden", cssIndex !== shuffledCssQuestions.length - 1);
+      }
+
+      function saveCssAnswer() { const answer = cssQuestion.querySelector(".standalone-answer-input"); if (answer) cssAnswers[cssIndex] = answer.value.trim(); }
       cssNext.addEventListener("click", () => { saveCssAnswer(); cssIndex += 1; renderCssQuestion(); });
       cssPrev.addEventListener("click", () => { saveCssAnswer(); cssIndex -= 1; renderCssQuestion(); });
       document.getElementById("css-quiz-form").addEventListener("submit", (event) => {
         event.preventDefault(); saveCssAnswer();
-        const correct = cssAnswers.filter((answer, index) => answer === cssQuestions[index][2]).length;
-        cssResult.textContent = `Eredményed: ${correct}/${cssQuestions.length} pont (${Math.round(correct / cssQuestions.length * 100)}%).`;
-        cssResult.className = "standalone-result visible";
-        cssFinish.textContent = "Újrakezdés"; cssFinish.type = "button";
-        cssFinish.onclick = () => { cssIndex = 0; cssAnswers = []; cssResult.className = "standalone-result"; cssFinish.textContent = "Eredmény"; cssFinish.type = "submit"; cssFinish.onclick = null; renderCssQuestion(); };
+        cssReviewButton.classList.remove("hidden");
+        cssReviewButton.focus();
       });
+
+      cssReviewButton.addEventListener("click", () => {
+        cssReviewList.replaceChildren();
+        shuffledCssQuestions.forEach(([question, answers, correctIndex], index) => {
+          const userIndex = cssAnswers[index];
+          const isCorrect = normalizeAnswer(cssAnswers[index]) === normalizeAnswer(answers[correctIndex]);
+          const item = document.createElement("article");
+          item.className = `review-item ${isCorrect ? "review-correct" : "review-wrong"}`;
+          item.innerHTML = `<h3>${index + 1}. ${question}</h3><p>A te válaszod: ${escapeHtml(cssAnswers[index] || "Nincs válasz")}</p><p>Helyes válasz: ${escapeHtml(answers[correctIndex])}</p>`;
+          cssReviewList.append(item);
+        });
+        document.getElementById("css-quiz-form").classList.add("hidden");
+        cssReviewButton.classList.add("hidden");
+        cssReviewPanel.classList.remove("hidden");
+        cssReviewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      cssBackButton.addEventListener("click", () => {
+        cssReviewPanel.classList.add("hidden");
+        document.getElementById("css-quiz-form").classList.remove("hidden");
+        cssReviewButton.classList.remove("hidden");
+        document.getElementById("css-quiz-form").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      function normalizeAnswer(value) {
+        return (value || "").toLowerCase().replace(/[<>]/g, "").replace(/\s+/g, " ").trim();
+      }
       renderCssQuestion();
     </script>
   </body>
