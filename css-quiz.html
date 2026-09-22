@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CSS kvíz kezdőknek és 9. osztályos tanulóknak." />
+    <title>CSS kvíz | Code Arena</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="standalone-quiz css-quiz-page">
+    <main class="standalone-shell">
+      <nav class="quiz-nav" aria-label="Kvízválasztó">
+        <a class="quiz-brand" href="index.html">Code Arena</a>
+        <div class="quiz-links">
+          <a class="quiz-link" href="html-quiz.html">HTML kvíz</a>
+          <a class="quiz-link active" href="css-quiz.html">CSS kvíz</a>
+        </div>
+      </nav>
+      <header class="standalone-hero">
+        <span class="standalone-kicker">02 / CSS alapok</span>
+        <h1>CSS kvíz</h1>
+        <p>Válaszd ki a helyes választ, és ellenőrizd a stíluslapokkal kapcsolatos tudásodat.</p>
+      </header>
+      <form class="standalone-form" id="css-quiz-form">
+        <div class="standalone-progress"><span id="css-progress">1 / 10</span><span id="css-score">0 pont</span></div>
+        <div id="css-question"></div>
+        <div class="standalone-actions">
+          <button class="quiz-button secondary" type="button" id="css-prev" disabled>Előző</button>
+          <button class="quiz-button" type="button" id="css-next">Következő</button>
+          <button class="quiz-button hidden" type="submit" id="css-finish">Eredmény</button>
+        </div>
+        <p class="standalone-result" id="css-result" aria-live="polite"></p>
+      </form>
+    </main>
+    <script>
+      const cssQuestions = [
+        ["Melyik tulajdonság állítja be a szöveg színét?", ["text-color", "font-color", "color", "foreground"], 2],
+        ["Melyik szelektor jelöl egy class nevű osztályt?", ["#class", ".class", "class", "@class"], 1],
+        ["Melyik tulajdonság állítja be a külső margót?", ["padding", "space", "margin", "gap"], 2],
+        ["Melyik tulajdonság állítja be a belső térközt?", ["inside-space", "padding", "margin", "border-gap"], 1],
+        ["Melyik deklaráció teszi rácsossá az elemet?", ["layout: grid", "position: grid", "display: grid", "grid: true"], 2],
+        ["Melyik tulajdonság változtatja meg a betűméretet?", ["font-size", "text-size", "font-height", "size"], 0],
+        ["Melyik szelektor jelöl egy id azonosítót?", [".azonosito", "id.azonosito", "#azonosito", "@azonosito"], 2],
+        ["Melyik tulajdonság állítja be az elem háttérszínét?", ["background-color", "back-color", "color-background", "fill-color"], 0],
+        ["Melyik érték igazítja középre a flex-elemeket a főtengelyen?", ["align-items: center", "justify-content: center", "text-align: center", "place: center"], 1],
+        ["Melyik tulajdonság változtatja meg egy elem szélességét?", ["size", "width", "element-width", "scale"], 1]
+      ];
+      let cssIndex = 0;
+      let cssAnswers = [];
+      const cssQuestion = document.getElementById("css-question");
+      const cssProgress = document.getElementById("css-progress");
+      const cssScore = document.getElementById("css-score");
+      const cssPrev = document.getElementById("css-prev");
+      const cssNext = document.getElementById("css-next");
+      const cssFinish = document.getElementById("css-finish");
+      const cssResult = document.getElementById("css-result");
+
+      function renderCssQuestion() {
+        const [question, answers] = cssQuestions[cssIndex];
+        cssQuestion.innerHTML = `<h2>${cssIndex + 1}. ${question}</h2><div class="answer-grid">${answers.map((answer, index) => `<label class="answer-option"><input type="radio" name="css-answer" value="${index}" ${cssAnswers[cssIndex] === index ? "checked" : ""} /><span>${answer}</span></label>`).join("")}</div>`;
+        cssProgress.textContent = `${cssIndex + 1} / ${cssQuestions.length}`;
+        cssScore.textContent = `${cssAnswers.filter((answer) => answer !== undefined).length} megválaszolva`;
+        cssPrev.disabled = cssIndex === 0;
+        cssNext.classList.toggle("hidden", cssIndex === cssQuestions.length - 1);
+        cssFinish.classList.toggle("hidden", cssIndex !== cssQuestions.length - 1);
+      }
+
+      function saveCssAnswer() { const selected = cssQuestion.querySelector("input:checked"); if (selected) cssAnswers[cssIndex] = Number(selected.value); }
+      cssNext.addEventListener("click", () => { saveCssAnswer(); cssIndex += 1; renderCssQuestion(); });
+      cssPrev.addEventListener("click", () => { saveCssAnswer(); cssIndex -= 1; renderCssQuestion(); });
+      document.getElementById("css-quiz-form").addEventListener("submit", (event) => {
+        event.preventDefault(); saveCssAnswer();
+        const correct = cssAnswers.filter((answer, index) => answer === cssQuestions[index][2]).length;
+        cssResult.textContent = `Eredményed: ${correct}/${cssQuestions.length} pont (${Math.round(correct / cssQuestions.length * 100)}%).`;
+        cssResult.className = "standalone-result visible";
+        cssFinish.textContent = "Újrakezdés"; cssFinish.type = "button";
+        cssFinish.onclick = () => { cssIndex = 0; cssAnswers = []; cssResult.className = "standalone-result"; cssFinish.textContent = "Eredmény"; cssFinish.type = "submit"; cssFinish.onclick = null; renderCssQuestion(); };
+      });
+      renderCssQuestion();
+    </script>
+  </body>
+</html>

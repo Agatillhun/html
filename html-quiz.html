@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="HTML kvíz kezdőknek és 9. osztályos tanulóknak." />
+    <title>HTML kvíz | Code Arena</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="standalone-quiz html-quiz-page">
+    <main class="standalone-shell">
+      <nav class="quiz-nav" aria-label="Kvízválasztó">
+        <a class="quiz-brand" href="index.html">Code Arena</a>
+        <div class="quiz-links">
+          <a class="quiz-link active" href="html-quiz.html">HTML kvíz</a>
+          <a class="quiz-link" href="css-quiz.html">CSS kvíz</a>
+        </div>
+      </nav>
+
+      <header class="standalone-hero">
+        <span class="standalone-kicker">01 / HTML alapok</span>
+        <h1>HTML kvíz</h1>
+        <p>Teszteld, mennyire ismered a weboldalak szerkezetét és a legfontosabb HTML-elemeket.</p>
+      </header>
+
+      <form class="standalone-form" id="html-quiz-form">
+        <div class="standalone-progress"><span id="html-progress">1 / 10</span><span id="html-score">0 pont</span></div>
+        <div id="html-question"></div>
+        <div class="standalone-actions">
+          <button class="quiz-button secondary" type="button" id="html-prev" disabled>Előző</button>
+          <button class="quiz-button" type="button" id="html-next">Következő</button>
+          <button class="quiz-button hidden" type="submit" id="html-finish">Eredmény</button>
+        </div>
+        <p class="standalone-result" id="html-result" aria-live="polite"></p>
+      </form>
+    </main>
+    <script>
+      const htmlQuestions = [
+        ["Melyik elem tartalmazza az oldal látható tartalmát?", ["<body>", "<head>", "<meta>", "<title>"], 0],
+        ["Melyik elem készít kattintható hivatkozást?", ["<a>", "<link>", "<href>", "<url>"], 0],
+        ["Melyik attribútum adja meg egy kép alternatív szövegét?", ["src", "alt", "title", "href"], 1],
+        ["Melyik elem jelöl bekezdést?", ["<paragraph>", "<text>", "<p>", "<section>"], 2],
+        ["Melyik a HTML5 dokumentumtípus-deklarációja?", ["<doctype html>", "<!DOCTYPE html>", "<html5>", "<document>"], 1],
+        ["Melyik elem hoz létre számozatlan listát?", ["<ol>", "<li>", "<ul>", "<list>"], 2],
+        ["Melyik elem jelöli a legfontosabb címsort?", ["<heading>", "<h6>", "<title>", "<h1>"], 3],
+        ["Melyik attribútum azonosít egy elemet egyedileg?", ["class", "id", "name", "key"], 1],
+        ["Melyik elem illeszt képet az oldalra?", ["<picture>", "<image>", "<img>", "<photo>"], 2],
+        ["Melyik elem tartalmazhat egy önálló tartalmi egységet?", ["<article>", "<content>", "<unit>", "<story>"], 0]
+      ];
+      let htmlIndex = 0;
+      let htmlAnswers = [];
+      const htmlQuestion = document.getElementById("html-question");
+      const htmlProgress = document.getElementById("html-progress");
+      const htmlScore = document.getElementById("html-score");
+      const htmlPrev = document.getElementById("html-prev");
+      const htmlNext = document.getElementById("html-next");
+      const htmlFinish = document.getElementById("html-finish");
+      const htmlResult = document.getElementById("html-result");
+
+      function renderHtmlQuestion() {
+        const [question, answers] = htmlQuestions[htmlIndex];
+        htmlQuestion.innerHTML = `<h2>${htmlIndex + 1}. ${question}</h2><div class="answer-grid">${answers.map((answer, index) => `<label class="answer-option"><input type="radio" name="html-answer" value="${index}" ${htmlAnswers[htmlIndex] === index ? "checked" : ""} /><span>${answer}</span></label>`).join("")}</div>`;
+        htmlProgress.textContent = `${htmlIndex + 1} / ${htmlQuestions.length}`;
+        htmlScore.textContent = `${htmlAnswers.filter((answer) => answer !== undefined).length} megválaszolva`;
+        htmlPrev.disabled = htmlIndex === 0;
+        htmlNext.classList.toggle("hidden", htmlIndex === htmlQuestions.length - 1);
+        htmlFinish.classList.toggle("hidden", htmlIndex !== htmlQuestions.length - 1);
+      }
+
+      function saveHtmlAnswer() {
+        const selected = htmlQuestion.querySelector("input:checked");
+        if (selected) htmlAnswers[htmlIndex] = Number(selected.value);
+      }
+
+      htmlNext.addEventListener("click", () => { saveHtmlAnswer(); htmlIndex += 1; renderHtmlQuestion(); });
+      htmlPrev.addEventListener("click", () => { saveHtmlAnswer(); htmlIndex -= 1; renderHtmlQuestion(); });
+      document.getElementById("html-quiz-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        saveHtmlAnswer();
+        const correct = htmlAnswers.filter((answer, index) => answer === htmlQuestions[index][2]).length;
+        htmlResult.textContent = `Eredményed: ${correct}/${htmlQuestions.length} pont (${Math.round(correct / htmlQuestions.length * 100)}%).`;
+        htmlResult.className = "standalone-result visible";
+        htmlFinish.textContent = "Újrakezdés";
+        htmlFinish.type = "button";
+        htmlFinish.onclick = () => { htmlIndex = 0; htmlAnswers = []; htmlResult.className = "standalone-result"; htmlFinish.textContent = "Eredmény"; htmlFinish.type = "submit"; htmlFinish.onclick = null; renderHtmlQuestion(); };
+      });
+      renderHtmlQuestion();
+    </script>
+  </body>
+</html>
